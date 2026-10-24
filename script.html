@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plata demo script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap">
+<style>
+/* Two-speaker cue sheet for the Plata part: one row per screen, the speaker tag decides who reads it. */
+:root { color-scheme: dark; --bg:#120f0c; --panel:#1d1813; --ink:#f3eadc; --muted:#a99a85; --line:#3b3127; --wood:#d4924f; --teal:#4fb3a6;
+  --body:"Golos Text",-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",Menlo,monospace; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:400 17px/1.45 var(--body);
+  padding-left:max(14px, env(safe-area-inset-left,0px)); padding-right:max(14px, env(safe-area-inset-right,0px)); }
+.wrap { max-width:46rem; margin:0 auto; padding-block:1rem 2rem; display:flex; flex-direction:column; gap:0.6rem; }
+h1 { margin:0; font:700 1.25rem/1.2 var(--body); }
+.sub { margin:0 0 0.3rem; color:var(--muted); font-size:0.92rem; } .sub a { color:var(--teal); }
+.row { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:0.7rem 0.9rem; display:grid; grid-template-columns:5.2rem 1fr; gap:0.2rem 0.8rem; }
+.row.dima { border-color:var(--wood); } .row.vitaly { border-color:var(--teal); }
+.tag { grid-row:span 2; font:600 0.9rem/1.25 var(--mono); }
+.dima .tag { color:var(--wood); } .vitaly .tag { color:var(--teal); }
+.tag small { display:block; font:400 0.72rem/1.3 var(--body); color:var(--muted); margin-top:0.25rem; }
+.say { margin:0; font:600 1.1rem/1.38 var(--body); }
+.ru { margin:0; color:var(--muted); font-size:0.88rem; }
+.tip { color:var(--muted); font-size:0.85rem; margin:0.4rem 0 0; } .tip b { color:var(--ink); }
+</style></head><body><div class="wrap">
+<h1>Plata track: who says what</h1>
+<p class="sub">Deck: <a href="./">balalaka128.github.io/pinoqio-plata-demo</a>. Next slide: →. The screen number is top-right on each slide.</p>
+
+<div class="row dima"><div class="tag">DIMA<small>Title, Pinoqio plays by itself</small></div>
+<p class="say">People contradict themselves. Bots do too. And when the topic is money, a mistake is expensive.</p>
+<p class="ru">Люди противоречат себе. Боты тоже. А в деньгах ошибка стоит дорого.</p></div>
+
+<div class="row dima"><div class="tag">DIMA<small>1 / 7 · 150 dots</small></div>
+<p class="say">Plata's expert marked 150 bot answers: good or bad. His rules are written nowhere.</p>
+<p class="ru">Эксперт Plata пометил 150 ответов бота. Его правила нигде не записаны.</p></div>
+
+<div class="row vitaly"><div class="tag">VITALY<small>2 / 7 · three steps</small></div>
+<p class="say">We gave these marks to Pinoqio. It found the expert's rules by itself.</p>
+<p class="ru">Мы дали пометки Пинокио. Правила он нашёл сам.</p></div>
+
+<div class="row vitaly"><div class="tag">VITALY<small>3 / 7 · rules</small></div>
+<p class="say">For example: a transfer to your own account is not spending.</p>
+<p class="ru">Например: перевод на свой счёт — не трата.</p></div>
+
+<div class="row vitaly"><div class="tag">VITALY<small>4 / 7 · real case</small></div>
+<p class="say">The bot said: you spent 6,600. The truth is 5,100. Gemma said "good". Pinoqio said "bad", and named the rule.</p>
+<p class="ru">Бот сказал 6 600, правда — 5 100. Gemma: «хорошо». Пинокио: «плохо» и назвал правило.</p></div>
+
+<div class="row vitaly"><div class="tag">VITALY<small>5 / 7 · dots</small></div>
+<p class="say">Agreement with the expert: from 81 to 93 percent. Missed mistakes: from 13 to 4.</p>
+<p class="ru">Совпадение с экспертом: с 81 до 93%. Пропущенные ошибки: с 13 до 4.</p></div>
+
+<div class="row vitaly"><div class="tag">VITALY<small>6 / 7 · charts</small></div>
+<p class="say">In Plata's score: 9.3 for accuracy, plus points for the explanation it writes itself.</p>
+<p class="ru">В баллах Plata: 9,3 за точность плюс баллы за объяснение, которое он пишет сам.</p></div>
+
+<div class="row dima"><div class="tag">DIMA<small>7 / 7 · code + Pinoqio</small></div>
+<p class="say">Pinoqio catches lies in people and mistakes in bots. Open source. Plata can try it today.</p>
+<p class="ru">Пинокио ловит ложь у людей и ошибки у ботов. Открытый код. Plata может попробовать сегодня.</p></div>
+
+<p class="tip"><b>Short on time:</b> Title → 4/7 → 5/7 → 7/7. Plata submission: fork balalaka128/metalearning-llmaaj, commit 03c9dbc8, public test 0.934.</p>
+</div></body></html>
