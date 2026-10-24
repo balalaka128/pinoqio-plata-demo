@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pinoqio: Plata submission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* One-page submission card for the Plata organizers: what to clone, which commit, how to run, what we got. */
+:root { color-scheme: dark; --bg:#120f0c; --panel:#1d1813; --ink:#f3eadc; --muted:#b3a38c; --line:#3b3127; --wood:#d4924f; --teal:#4fb3a6;
+  --display:"Cormorant Garamond",Georgia,serif; --body:"Golos Text",-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",Menlo,monospace; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); font:400 17px/1.55 var(--body);
+  background: radial-gradient(70vw 50vh at 90% 0%, rgba(212,146,79,0.12), transparent 70%), var(--bg);
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); }
+.wrap { max-width:50rem; margin:0 auto; padding-block:2.5rem 3rem; display:flex; flex-direction:column; gap:1.6rem; }
+.kicker { font:500 0.78rem/1 var(--mono); letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+h1 { margin:0; font:700 clamp(2.2rem, 6vw, 3.4rem)/1 var(--display); text-wrap:balance; } h1 em { color:var(--teal); }
+h2 { margin:0; font:600 1rem/1.2 var(--body); color:var(--wood); }
+p { margin:0; max-width:65ch; } a { color:var(--teal); }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.6rem; }
+.kv { display:grid; grid-template-columns:7rem 1fr; gap:0.5rem 1rem; }
+.kv dt { color:var(--muted); } .kv dd { margin:0; font:500 0.95rem/1.5 var(--mono); word-break:break-all; }
+pre { margin:0; background:#0d0b09; border:1px solid var(--line); border-radius:10px; padding:0.9rem 1rem; overflow-x:auto; font:500 0.85rem/1.6 var(--mono); }
+.nums { display:grid; grid-template-columns:repeat(auto-fit, minmax(12rem, 1fr)); gap:0.8rem; }
+.num { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:0.9rem 1rem; }
+.num b { display:block; font:700 2.4rem/1.1 var(--display); font-variant-numeric:tabular-nums; } .num s { color:var(--muted); text-decoration:none; font-size:0.6em; }
+.num span { color:var(--muted); font-size:0.9rem; }
+ul { margin:0; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.35rem; }
+@media (max-width:560px) { .kv { grid-template-columns:1fr; gap:0.1rem; } .kv dd { margin-bottom:0.5rem; } }
+</style></head><body><div class="wrap">
+  <span class="kicker">Team Pinoqio · Plata track</span>
+  <h1>A judge that learns <em>from the expert</em></h1>
+  <p>Learns the expert's unwritten rules from the labeled training set, writes them down as a per-topic rulebook with priorities and evidence, and grades new conversations with those rules. Any broken rule: <code>bad</code>.</p>
+
+  <div class="card"><h2>Submission</h2>
+    <dl class="kv">
+      <dt>Fork</dt><dd><a href="https://github.com/balalaka128/metalearning-llmaaj">github.com/balalaka128/metalearning-llmaaj</a></dd>
+      <dt>Commit</dt><dd>03c9dbc893c48485a0ab170b04dd3b5b4de6ffb2</dd>
+      <dt>Instructions</dt><dd><a href="https://github.com/balalaka128/metalearning-llmaaj/blob/main/SOLUTION.md">SOLUTION.md</a></dd>
+      <dt>Model</dt><dd>Gemma 4 26B A4B via the Gemini API</dd>
+    </dl>
+  </div>
+
+  <div class="card"><h2>Run</h2>
+<pre>python3 src/prepare_inputs.py --train &lt;train.csv&gt; --test &lt;test.csv&gt; --out-dir in
+docker build -t pinoqio-judge .
+docker run --rm -e GEMINI_API_KEY -v "$PWD/in:/input" -v "$PWD/artifacts:/artifacts" pinoqio-judge adapt
+docker run --rm -e GEMINI_API_KEY -v "$PWD/in:/input" -v "$PWD/artifacts:/artifacts" -v "$PWD/out:/output" pinoqio-judge eval</pre>
+    <ul>
+      <li><code>adapt</code> writes the jury explanation to <code>/artifacts/explanation.md</code>, plus <code>rulebook.json</code> and the exact per-topic prompts.</li>
+      <li>Rate limit: 14 requests/min by default (Gemma free tier). With a paid key set <code>JUDGE_RPM</code> higher to finish faster.</li>
+      <li>Key from <code>GEMINI_API_KEY</code>, <code>GEMINI_API_KEY_JUDGE</code> or <code>GOOGLE_API_KEY</code>.</li>
+    </ul>
+  </div>
+
+  <h2>Public test (80 conversations)</h2>
+  <div class="nums">
+    <div class="num"><b><s>0.814 →</s> 0.934</b><span>macro_topic_accuracy, plain Gemma → with learned rules</span></div>
+    <div class="num"><b><s>13 →</s> 4</b><span>bad answers missed, of 30</span></div>
+    <div class="num"><b><s>3 →</s> 2</b><span>false alarms, of 50</span></div>
+  </div>
+
+  <div class="card"><h2>More</h2>
+    <ul>
+      <li>Stage deck: <a href="./">balalaka128.github.io/pinoqio-plata-demo</a></li>
+      <li>Full project (MIT, live negotiation copilot + this judge): <a href="https://github.com/bioztar/pinoqio">github.com/bioztar/pinoqio</a></li>
+    </ul>
+  </div>
+</div></body></html>
